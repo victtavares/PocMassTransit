@@ -19,7 +19,7 @@ namespace PixConsumer.Consumers {
             _logger.LogInformation($"PayPix Value: {pix.Value} | id: {pix.Id}");
 
             await context.Publish<IPixPayed>(new {
-                pix = pix,
+                pix,
                 Time = DateTime.UtcNow,
             });
         }
