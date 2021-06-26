@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Events;
 using MassTransit;
 using Microsoft.Extensions.Logging;
@@ -13,10 +14,14 @@ namespace PixConsumer.Consumers {
             _logger = logger;
         }
         
-        public Task Consume(ConsumeContext<IPayPix> context) {
+        public async Task Consume(ConsumeContext<IPayPix> context) {
             var pix = context.Message;
-            _logger.LogInformation($"Consuming pix with value: {pix.Value} and id: {pix.Id}");
-            return Task.CompletedTask;
+            _logger.LogInformation($"PayPix Value: {pix.Value} | id: {pix.Id}");
+
+            await context.Publish<IPixPayed>(new {
+                pix = pix,
+                Time = DateTime.UtcNow,
+            });
         }
     }
 }

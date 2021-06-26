@@ -3,7 +3,13 @@
 namespace Events {
     
     public interface IPayPix {
-        Guid Id { get;  }
+        Guid Id { get; }
         long Value { get; }
+    }
+    
+    public interface IPixPayed {
+        IPayPix Pix { get;  }
+        
+        DateTime Time { get;  }
     }
 }
